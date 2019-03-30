@@ -33,15 +33,15 @@ extern "C" {
 #include "include/pin_manager.h"
 #include "include/clkctrl.h"
 #include "include/slpctrl.h"
-#include "include/twi0.h"
-#include "include/bod.h"
-#include "include/rtc.h"
-#include "include/spi0.h"
 #include "include/wdt.h"
-#include "drivers/i2c_simple_master.h"
+#include "include/twi0.h"
+#include "include/spi0.h"
 #include "include/cpuint.h"
-#include "include/adc0.h"
 #include "include/usart2.h"
+#include "include/adc0.h"
+#include "include/bod.h"
+#include "drivers/i2c_simple_master.h"
+#include "include/rtc.h"
 
 /**
  * Initializes MCU, drivers and middleware in the project

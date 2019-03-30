@@ -55,13 +55,16 @@ void sendToCloud(void)
 {
    static char json[100];
 
-//    int temp = SENSORS_getTempValue();
-//    int light = SENSORS_getLightValue();
-    int x = SENSORS_getIMUValue(IMU_OUT_XL);
-    int y = SENSORS_getIMUValue(IMU_OUT_YL);
-    int z = SENSORS_getIMUValue(IMU_OUT_ZL);
+    int temp = SENSORS_getTempValue();
+    int light = SENSORS_getLightValue();
 
-    int len = sprintf(json, "{\"X\":%d,\"Y\":%d,\"Z\":%d}", x, y, z);
+    int x = SENSORS_getIMUValue(0x28)>>7;
+    int y = SENSORS_getIMUValue(0x2A)>>7;
+    int z = SENSORS_getIMUValue(0x2C)>>7;
+
+    int len = sprintf(json, "{\"Temp\":%d.%02d,\"Light\":%d,\"X\":%d,\"Y\":%d,\"Z\":%d}",
+                                temp/100, abs(temp)%100, light, x, y, z);
+//    printf("X:%d,Y:%d,Z:%d\n", x, y, z);
     if (len >0) {
         CLOUD_publishData((uint8_t*)json, len);
         LED_flashYellow();

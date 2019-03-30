@@ -28,12 +28,6 @@
 #ifndef SENSORS_HANDLING_H
 #define SENSORS_HANDLING_H
 
-#define IMU_WHO_AM_I        0x0f    // who am I -> signature
-#define IMU_SIGNATURE       0x69
-#define IMU_ACC_CFG         0x10    // CTRL_1 XL
-#define IMU_GYR_CFG         0x11    // CTRL_2 G
-#define IMU_CTR_C           0x12    // CTRL_C
-#define IMU_STATUS          0x1E    // status reg
 #define IMU_OUT_TEMP        0x20    // reg (16-bit) temperature
 #define IMU_OUT_XG          0x22    // angular acceleration
 #define IMU_OUT_YG          0x24

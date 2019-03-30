@@ -26,14 +26,26 @@
 */
 
 #include <stdint.h>
-#include "sensors_handling.h"
 #include "include/adc0.h"
-#include "drivers/i2c_simple_master.h"
+#include "sensors_handling.h"
 #include "include/pin_manager.h"
+#include "drivers/i2c_simple_master.h"
+
+#define F_CPU 10000000L
+#include "util/delay.h"
 
 #define MCP9809_ADDR				0x18
 #define MCP9808_REG_TA				0x05
 #define LIGHT_SENSOR_ADC_CHANNEL	5
+
+#define IMU_ADDRESS         0x6B
+#define IMU_WHO_AM_I        0x0f    // who am I -> signature 0x69=105
+#define IMU_SIGNATURE       0x69
+#define IMU_ACC_CFG         0x10    // CTRL_1 XL
+#define IMU_GYR_CFG         0x11    // CTRL_2 G
+#define IMU_CTR_C           0x12    // CTRL_C
+#define IMU_CTR6_C          0x15
+#define IMU_STATUS          0x1E    // status reg
 
 uint16_t SENSORS_getLightValue(void)
 {
@@ -55,22 +67,23 @@ int16_t SENSORS_getTempValue (void)
     return temperature;
 }
 
-// 6DOF IMU Click(tm) constants
-#define IMU_ADDRESS         (0x6B)
 
 int16_t SENSORS_getIMUValue(uint8_t reg)
 {
-    return i2c_read2ByteRegister(IMU_ADDRESS,  reg)>>7;
+//    return i2c_read2ByteRegister(IMU_ADDRESS,  reg);
+    return i2c_read2ByteRegister(IMU_ADDRESS, reg);
 }
 
 void SENSORS_IMUInit(void)
 {
     IMU_CS_set_level(true);
 
-    uint16_t signature = i2c_read1ByteRegister( IMU_ADDRESS, IMU_WHO_AM_I);
-    printf("IMU signature = %d\n", signature);
-
+//    uint16_t signature = i2c_read1ByteRegister( IMU_ADDRESS, IMU_WHO_AM_I);
+//    printf("IMU signature = %d\n", signature);
+    _delay_ms(1);
+    i2c_write1ByteRegister(IMU_ADDRESS, IMU_CTR_C,  0x81);    // soft reset
+    _delay_ms(10);
     i2c_write1ByteRegister(IMU_ADDRESS, IMU_ACC_CFG, 0x10);    // 13Hz 2g, 400Hz
-    i2c_write1ByteRegister(IMU_ADDRESS, IMU_GYR_CFG, 0x24);    // 26Hz 500dps
+//    i2c_write1ByteRegister(IMU_ADDRESS, IMU_GYR_CFG, 0x24);    // 26Hz 500dps
     i2c_write1ByteRegister(IMU_ADDRESS, IMU_CTR_C,   0x06);    // MSB first
 }
