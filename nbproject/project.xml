@@ -6,9 +6,9 @@
             <name>AVR-IOT_6DOF</name>
             <creation-uuid>c83acaff-82b4-40c9-a7b4-a4e4a32cf99e</creation-uuid>
             <make-project-type>0</make-project-type>
-            <c-extensions/>
+            <c-extensions>c</c-extensions>
             <cpp-extensions/>
-            <header-extensions/>
+            <header-extensions>h</header-extensions>
             <asminc-extensions/>
             <sourceEncoding>ISO-8859-1</sourceEncoding>
             <make-dep-projects/>
